@@ -8,7 +8,7 @@ const shipFactory = (coordinateArr) => {
     }
 
     const isSunk = (beenHit) => {
-        sunk = (beenHit.length === shipLength) ? true : false;
+        return (beenHit.length === shipLength) ? true : false;
     } 
 
     return {shipLength, beenHit, sunk, hit, isSunk}
