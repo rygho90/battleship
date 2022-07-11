@@ -13,3 +13,5 @@ const shipFactory = (coordinateArr) => {
 
     return {shipLength, beenHit, sunk, hit, isSunk}
 }
+
+export { shipFactory }
