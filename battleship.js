@@ -1,7 +1,6 @@
 const shipFactory = (coordinateArr) => {
     const shipLength = coordinateArr.length
     const beenHit = [];
-    let sunk = false;
 
     const hit = (coordinate) => {
         if (coordinateArr.includes(coordinate)) beenHit.push(coordinate)
@@ -11,7 +10,16 @@ const shipFactory = (coordinateArr) => {
         return (beenHit.length === shipLength) ? true : false;
     } 
 
-    return {shipLength, beenHit, sunk, hit, isSunk}
+    return {shipLength, beenHit, hit, isSunk}
 }
 
-export { shipFactory }
+const gameboardFactory = () => {
+
+    const placeShip = (direction, shipLength, startingCoordinate) => {
+        if (direction === 'horizontal') {
+            // ...
+        }
+    }
+}
+
+export { shipFactory, gameboardFactory }
