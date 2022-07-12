@@ -20,5 +20,5 @@ test("test the ship's isSunk method", () => {
     const newShip = shipFactory(['A1', 'A2'])
     newShip.hit('A1')
     newShip.hit('A2')
-    expect(newShip.isSunk(newShip.beenHit)).toBe(true)
+    expect(newShip.isSunk()).toBe(true)
 })
