@@ -27,6 +27,7 @@ const gameboardFactory = () => {
                        'J1', 'J2', 'J3', 'J4', 'J5', 'J6', 'J7', 'J8', 'J9', 'J10'] // 90-99
 
     const filledCoords = []
+    const shipList = []
 
     const placeShip = (direction, shipLength, startPos) => {
         const coordinateArr = []
@@ -43,7 +44,9 @@ const gameboardFactory = () => {
                 }
      
                 coordinateArr.forEach(coord => filledCoords.push(coord))
-                return shipFactory(coordinateArr)
+                let newShip = shipFactory(coordinateArr);
+                shipList.push(newShip)
+                return newShip
             } else {
                 return
             }
@@ -59,14 +62,24 @@ const gameboardFactory = () => {
                     if (filledCoords.includes(allCoords[i + startPos])) return
                 }
                 coordinateArr.forEach(coord => filledCoords.push(coord))
-                return shipFactory(coordinateArr)
+                let newShip = shipFactory(coordinateArr);
+                shipList.push(newShip)
+                return newShip
             } else {
                 return
             }
         }
     }
 
-    return {placeShip}
+    const receiveAttack = (coordinate) => {
+        if (filledCoords.includes(coordinate)) {
+            shipList.forEach(ship => {
+                ship.hit(coordinate)
+            })
+        }
+    }
+
+    return {placeShip, receiveAttack}
 }
 
 export { shipFactory, gameboardFactory }

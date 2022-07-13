@@ -62,3 +62,19 @@ test("cannot place a ship on top of another ship", () => {
     const shipThree = gameBoard.placeShip('vertical', 3, 2)
     expect(shipThree).toBe(undefined)
 })
+
+test("receive an attack", () => {
+    const gameBoard = gameboardFactory()
+    const shipOne = gameBoard.placeShip('horizontal', 3, 2)
+    gameBoard.receiveAttack('A4')
+    expect(shipOne).toHaveProperty('beenHit', ['A4'])
+})
+
+test("sink a ship", () => {
+    const gameBoard = gameboardFactory()
+    const shipOne = gameBoard.placeShip('horizontal', 3, 2)
+    gameBoard.receiveAttack('A4')
+    gameBoard.receiveAttack('A3')
+    gameBoard.receiveAttack('A5')
+    expect(shipOne.isSunk()).toBe(true)
+})
