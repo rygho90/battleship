@@ -34,3 +34,18 @@ test("test placing a ship horizontally", () => {
     const shipThree = gameBoard.placeShip('horizontal', 5, 8)
     expect(shipThree).toBe(null)
 })
+
+test("test placing a ship vertically", () => {
+    const gameBoard = gameboardFactory()
+    const shipOne = gameBoard.placeShip('vertical', 3, 2)
+    expect(shipOne).toHaveProperty('shipLength', 3)
+    expect(shipOne).toHaveProperty('shipLocation', ['A3', 'B3', 'C3'])
+
+    const shipTwo = gameBoard.placeShip('vertical', 4, 38)
+    expect(shipTwo).toHaveProperty('shipLength', 4)
+    expect(shipTwo).toHaveProperty('shipLocation', ['D9', 'E9', 'F9', 'G9'])
+
+    // Ship too long for column, returns null
+    const shipThree = gameBoard.placeShip('vertical', 5, 86)
+    expect(shipThree).toBe(null)
+})
