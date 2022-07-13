@@ -78,3 +78,11 @@ test("sink a ship", () => {
     gameBoard.receiveAttack('A5')
     expect(shipOne.isSunk()).toBe(true)
 })
+
+test("miss an attack", () => {
+    const gameBoard = gameboardFactory()
+    const shipOne = gameBoard.placeShip('horizontal', 3, 2)
+    gameBoard.receiveAttack('J4')
+    expect(shipOne).toHaveProperty('beenHit', [])
+    expect(gameBoard).toHaveProperty('missedAttacks', ['J4'])
+})
