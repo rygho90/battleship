@@ -30,9 +30,9 @@ test("test placing a ship horizontally", () => {
     expect(shipTwo).toHaveProperty('shipLength', 4)
     expect(shipTwo).toHaveProperty('shipLocation', ['A6', 'A7', 'A8', 'A9'])
 
-    // Ship too long for row, returns null
+    // Ship too long for row
     const shipThree = gameBoard.placeShip('horizontal', 5, 8)
-    expect(shipThree).toBe(null)
+    expect(shipThree).toBe(undefined)
 })
 
 test("test placing a ship vertically", () => {
@@ -45,7 +45,20 @@ test("test placing a ship vertically", () => {
     expect(shipTwo).toHaveProperty('shipLength', 4)
     expect(shipTwo).toHaveProperty('shipLocation', ['D9', 'E9', 'F9', 'G9'])
 
-    // Ship too long for column, returns null
+    // Ship too long for column
     const shipThree = gameBoard.placeShip('vertical', 5, 86)
-    expect(shipThree).toBe(null)
+    expect(shipThree).toBe(undefined)
+})
+
+test("cannot place a ship on top of another ship", () => {
+    const gameBoard = gameboardFactory()
+
+    const shipOne = gameBoard.placeShip('horizontal', 3, 2)
+    const shipTwo = gameBoard.placeShip('horizontal', 3, 2)
+    expect(shipOne).toHaveProperty('shipLength', 3)
+    expect(shipOne).toHaveProperty('shipLocation', ['A3', 'A4', 'A5'])
+    expect(shipTwo).toBe(undefined)
+
+    const shipThree = gameBoard.placeShip('vertical', 3, 2)
+    expect(shipThree).toBe(undefined)
 })

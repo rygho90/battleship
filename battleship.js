@@ -26,8 +26,12 @@ const gameboardFactory = () => {
                        'I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', 'I8', 'I9', 'I10', // 80-89
                        'J1', 'J2', 'J3', 'J4', 'J5', 'J6', 'J7', 'J8', 'J9', 'J10'] // 90-99
 
+    const filledCoords = []
+
     const placeShip = (direction, shipLength, startPos) => {
         const coordinateArr = []
+
+        //Horizontal placement
         if (direction === 'horizontal') {
             let row = Math.floor(startPos / 10)
             let endPos = startPos + shipLength
@@ -35,21 +39,29 @@ const gameboardFactory = () => {
             if (row === Math.floor(endPos / 10)) {
                 for (let i = 0; i < shipLength; i++) {
                     coordinateArr.push(allCoords[i + startPos])
+                    if (filledCoords.includes(allCoords[i + startPos])) return
                 }
+     
+                coordinateArr.forEach(coord => filledCoords.push(coord))
                 return shipFactory(coordinateArr)
             } else {
-                return null
+                return
             }
-        } else {
+        } 
+
+        // Vertical placement
+        else {
             let endPos = startPos + (shipLength * 10)
 
             if (endPos <= 99) {
                 for(let i = 0; i < (shipLength * 10); i+=10) {
                     coordinateArr.push(allCoords[i + startPos])
+                    if (filledCoords.includes(allCoords[i + startPos])) return
                 }
+                coordinateArr.forEach(coord => filledCoords.push(coord))
                 return shipFactory(coordinateArr)
             } else {
-                return null
+                return
             }
         }
     }
