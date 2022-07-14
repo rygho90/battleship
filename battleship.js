@@ -77,15 +77,21 @@ const gameboardFactory = () => {
             shipList.forEach(ship => {
                 ship.hit(coordinate)
             })
-            // after recording the hit, check for sunk ship(s)
         } else {
-            // if it's not a filled coord, record a missed attack
             missedAttacks.push(coordinate)
         }
         
     }
 
-    return {missedAttacks, placeShip, receiveAttack}
+    const allSunk = () => {
+        const sunkList = []
+        shipList.forEach(ship => {
+            if (ship.isSunk() === true) sunkList.push(ship)
+        })
+        return sunkList.length === shipList.length
+    }
+
+    return {missedAttacks, shipList, placeShip, receiveAttack, allSunk}
 }
 
 export { shipFactory, gameboardFactory }
