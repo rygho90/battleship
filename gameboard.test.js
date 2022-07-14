@@ -1,27 +1,7 @@
-import {shipFactory, gameboardFactory} from './battleship'
-
-test('create a ship object', () => {
-    const newShip = shipFactory(['A1', 'A2'])
-    expect(newShip).toHaveProperty('hit')
-    expect(newShip).toHaveProperty('isSunk')
-})
-
-test("test the ship's hit method", () => {
-    const newShip = shipFactory(['A1', 'A2'])
-    newShip.hit('A1')
-    expect(newShip.beenHit).toEqual(['A1'])
-    expect(newShip.beenHit.length).toBe(1)
-})
-
-test("test the ship's isSunk method", () => {
-    const newShip = shipFactory(['A1', 'A2'])
-    newShip.hit('A1')
-    newShip.hit('A2')
-    expect(newShip.isSunk()).toBe(true)
-})
+import gameboard from './gameboard'
 
 test("test placing a ship horizontally", () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
     const shipOne = gameBoard.placeShip('horizontal', 3, 2)
     expect(shipOne).toHaveProperty('shipLength', 3)
     expect(shipOne).toHaveProperty('shipLocation', ['A3', 'A4', 'A5'])
@@ -36,7 +16,7 @@ test("test placing a ship horizontally", () => {
 })
 
 test("test placing a ship vertically", () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
     const shipOne = gameBoard.placeShip('vertical', 3, 2)
     expect(shipOne).toHaveProperty('shipLength', 3)
     expect(shipOne).toHaveProperty('shipLocation', ['A3', 'B3', 'C3'])
@@ -51,7 +31,7 @@ test("test placing a ship vertically", () => {
 })
 
 test("cannot place a ship on top of another ship", () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
 
     const shipOne = gameBoard.placeShip('horizontal', 3, 2)
     const shipTwo = gameBoard.placeShip('horizontal', 3, 2)
@@ -64,14 +44,14 @@ test("cannot place a ship on top of another ship", () => {
 })
 
 test("receive an attack", () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
     const shipOne = gameBoard.placeShip('horizontal', 3, 2)
     gameBoard.receiveAttack('A4')
     expect(shipOne).toHaveProperty('beenHit', ['A4'])
 })
 
 test("sink a ship", () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
     const shipOne = gameBoard.placeShip('horizontal', 3, 2)
     gameBoard.receiveAttack('A4')
     gameBoard.receiveAttack('A3')
@@ -80,7 +60,7 @@ test("sink a ship", () => {
 })
 
 test("miss an attack", () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
     const shipOne = gameBoard.placeShip('horizontal', 3, 2)
     gameBoard.receiveAttack('J4')
     expect(shipOne).toHaveProperty('beenHit', [])
@@ -88,7 +68,7 @@ test("miss an attack", () => {
 })
 
 test("sink all ships", () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
     const shipOne = gameBoard.placeShip('horizontal', 3, 2)
     gameBoard.receiveAttack('A4')
     gameBoard.receiveAttack('A3')
