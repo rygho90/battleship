@@ -10,8 +10,34 @@
     display: flex;
 }
 
-.board-row {
-    height: 50px;
-    width: 500px;
-    border: solid black 1px;
+.player-area {
+    display: grid;
+    grid-template-columns: 1fr 400px 1fr;
+    grid-template-rows: 1fr 400px 1fr;
+}
+
+.computer-area {
+    grid-template-areas:  "..... title.. ......."
+                          "ships board.. letters"
+                          "..... numbers .......";
+}
+
+.human-area {
+    grid-template-areas:  "....... title.. ....."
+                          "letters board.. ships"
+                          "....... numbers .....";
+}
+
+.area-title {
+    grid-area: title;
+}
+
+.letter-list {
+    grid-area: letters
+}
+
+.board {
+    grid-area: board;
+    height: 400px;
+    width: 400px;
 }
