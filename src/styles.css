@@ -1,0 +1,17 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    display: flex;
+}
+
+.board-row {
+    height: 50px;
+    width: 500px;
+    border: solid black 1px;
+}
