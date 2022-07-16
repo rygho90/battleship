@@ -3,6 +3,7 @@ import gameboard from './gameboard'
 import player from './player'
 import './styles.css'
 
+const startBtn = document.querySelector('[data-start-btn]')
 const computerGrid = document.querySelector('[data-computer-grid]')
 const humanGrid = document.querySelector('[data-human-grid]')
 
@@ -18,3 +19,7 @@ function createBoard(grid) {
 
 createBoard(computerGrid)
 createBoard(humanGrid)
+
+startBtn.addEventListener('click', () => {
+    startBtn.classList.add('hide')
+})

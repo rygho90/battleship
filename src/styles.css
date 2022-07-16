@@ -8,8 +8,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    flex-direction: column;
+    position: relative;
 }
 
 .game-title {
@@ -132,4 +131,15 @@ body {
 .ship-sunk {
     border: solid 2px black;
     background-color: lightcoral;
+}
+
+.start-btn {
+    position: absolute;
+    z-index: 10;
+    padding: 25px 50px;
+    font-size: 2rem;
+    left: 40%;
+    top: 50%;
+    box-shadow: 5px 5px 5px;
+    cursor: pointer;
 }
