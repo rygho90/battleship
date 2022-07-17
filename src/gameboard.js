@@ -19,7 +19,7 @@ const gameboard = () => {
                     coordinateArr.push(i + startPos)
                     if (filledCoords.includes(i + startPos)) {
                         //console.log("Failed to place ship: other ship in way.")
-                        return
+                        return 'fail'
                     } 
                 }
                 ship.placed = true
@@ -27,7 +27,7 @@ const gameboard = () => {
                 coordinateArr.forEach(coord => filledCoords.push(coord))
             } else {
                 //console.log("Failed to place ship: off edge.")
-                return
+                return 'fail'
             }
         } 
 
@@ -40,7 +40,7 @@ const gameboard = () => {
                     coordinateArr.push(i + startPos)
                     if (filledCoords.includes(i + startPos)) {
                         //console.log("Failed to place ship: other ship in way.")
-                        return
+                        return 'fail'
                     } 
                 }
                 ship.placed = true
@@ -48,7 +48,7 @@ const gameboard = () => {
                 coordinateArr.forEach(coord => filledCoords.push(coord))
             } else {
                 //console.log("Failed to place ship: off edge.")
-                return
+                return 'fail'
             }
         }
     }

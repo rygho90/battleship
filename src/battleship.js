@@ -4,7 +4,6 @@ import player from './player'
 import './styles.css'
 
 const startBtn = document.querySelector('[data-start-btn]')
-const restartBtn = document.querySelector('[data-restart-btn]')
 const computerGrid = document.querySelector('[data-computer-grid]')
 const humanGrid = document.querySelector('[data-human-grid]')
 let computerSquares = []
@@ -100,15 +99,15 @@ const gameController = (() => {
         human.populateShips()
 
         computer.randomPlacement(computerBoard)
-        //computer.logShipList()
         
-        human.randomPlacement(humanBoard)
-        //human.logShipList()
+        //human.randomPlacement(humanBoard)
 
-        displayController.renderHumanBoard(computerBoard, computerSquares)
+        displayController.renderComputerBoard(computerBoard, computerSquares)
         displayController.updateShipBoxes(computer)
         displayController.renderHumanBoard(humanBoard, humanSquares)
         displayController.updateShipBoxes(human)
+
+        placementRound()
     }
 
     const checkForWinner = () => {
@@ -122,6 +121,68 @@ const gameController = (() => {
             if (ship.isSunk()) humanSunk++
         })
         if (humanSunk === 5) displayController.showEndGameBox('lost')
+    }
+
+    const placementRound = () => {
+        console.log(human.shipList)
+        let placedNum = 0
+        let selectedShip = 0
+        let direction = 1
+        human.shipList[selectedShip].selected = true
+        displayController.updateShipBoxes(human)
+
+        const hoverEffect = (e) => {
+            const coord = parseInt(e.target.dataset.num)
+            const placementLength = human.shipList[selectedShip].shipLength
+            humanSquares.forEach(square => square.classList.remove('hovering'))
+
+            if (direction === 1) {
+                for (let i = coord; i < coord + placementLength; i++) {
+                    humanSquares[i].classList.add('hovering')
+                }
+            } else {
+                for (let i = coord; i < coord + (placementLength * 10); i+=10) {
+                    humanSquares[i].classList.add('hovering')
+                } 
+            }
+            
+        }
+
+        const placeShip = (e) => {
+            const coord = parseInt(e.target.dataset.num)
+            let shipPlaced = humanBoard.placeShip(direction, human.shipList[selectedShip], coord)
+            if (shipPlaced != 'fail') {
+                displayController.renderHumanBoard(humanBoard, humanSquares)
+                selectedShip++
+                placedNum++
+                if (placedNum != human.shipList.length) human.shipList[selectedShip].selected = true
+                displayController.updateShipBoxes(human)
+                if (placedNum === human.shipList.length) {
+                    humanSquares.forEach(square => {
+                        square.removeEventListener('mouseover', hoverEffect)
+                    })
+            
+                    humanSquares.forEach(square => {
+                        square.removeEventListener('click', placeShip)
+                    })
+                    humanRound()
+                }
+                
+            }
+            
+        }
+
+        humanSquares.forEach(square => {
+            square.addEventListener('mouseover', hoverEffect)
+        })
+
+        humanSquares.forEach(square => {
+            square.addEventListener('click', placeShip)
+        })
+
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'r' || e.key === 'R') direction *= -1
+        })       
     }
 
     const humanRound = () => {
@@ -192,6 +253,7 @@ const gameController = (() => {
 
     return {
         initializeGame,
+        placementRound,
         humanRound,
         computerRound
     }
@@ -200,11 +262,9 @@ const gameController = (() => {
 function handleStart() {
     displayController.hideElement(startBtn)
     gameController.initializeGame()
-    gameController.humanRound()
 }
 
 
 displayController.createBoard(computerGrid, computerSquares)
 displayController.createBoard(humanGrid, humanSquares)
 startBtn.addEventListener('click', handleStart)
-// restartBtn.addEventListener('click', handleStart)

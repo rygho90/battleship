@@ -11,11 +11,13 @@ const player = (board, type) => {
         const battleship = ship('battleship')
         const carrier = ship('carrier')
 
-        shipList.push(destroyer)
-        shipList.push(submarine)
-        shipList.push(cruiser)
-        shipList.push(battleship)
+        
         shipList.push(carrier)
+        shipList.push(battleship)
+        shipList.push(cruiser)
+        shipList.push(submarine)
+        shipList.push(destroyer)
+        
     }
 
     const logShipList = () => {
