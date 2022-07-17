@@ -24,11 +24,22 @@ const displayController = (() => {
         element.classList.add('hide')
     }
 
-    const renderGameBoard = (board, squares) => {
+    const renderHumanBoard = (board, squares) => {
         board.filledCoords.forEach(coord => {
             squares[coord].style.backgroundColor = 'black'
             squares[coord].style.borderColor = 'white'
         })
+        board.missedAttacks.forEach(coord => {
+            squares[coord].style.backgroundColor = 'blue'
+            squares[coord].style.borderColor = 'black'
+        })
+        board.hitAttacks.forEach(coord => {
+            squares[coord].style.backgroundColor = 'red'
+            squares[coord].style.borderColor = 'black'
+        })
+    }
+
+    const renderComputerBoard = (board, squares) => {
         board.missedAttacks.forEach(coord => {
             squares[coord].style.backgroundColor = 'blue'
             squares[coord].style.borderColor = 'black'
@@ -63,7 +74,8 @@ const displayController = (() => {
     return {
         createBoard,
         hideElement,
-        renderGameBoard,
+        renderHumanBoard,
+        renderComputerBoard,
         updateShipBoxes
     }
 })();
@@ -84,9 +96,9 @@ const gameController = (() => {
         human.randomPlacement(humanBoard)
         //human.logShipList()
 
-        displayController.renderGameBoard(computerBoard, computerSquares)
+        displayController.renderComputerBoard(computerBoard, computerSquares)
         displayController.updateShipBoxes(computer)
-        displayController.renderGameBoard(humanBoard, humanSquares)
+        displayController.renderHumanBoard(humanBoard, humanSquares)
         displayController.updateShipBoxes(human)
     }
 
@@ -114,7 +126,7 @@ const gameController = (() => {
                 computer.shipList.forEach(ship => {
                     ship.checkHit(parseInt(coord))
                 })
-                displayController.renderGameBoard(computerBoard, computerSquares)
+                displayController.renderComputerBoard(computerBoard, computerSquares)
                 displayController.updateShipBoxes(computer)
                 checkForWinner()
                 computerSquares.forEach(square => {
@@ -151,7 +163,7 @@ const gameController = (() => {
                 human.shipList.forEach(ship => {
                     ship.checkHit(parseInt(coord))
                 })
-                displayController.renderGameBoard(humanBoard, humanSquares)
+                displayController.renderHumanBoard(humanBoard, humanSquares)
                 displayController.updateShipBoxes(human)
                 checkForWinner()
                 shotFired = true;
