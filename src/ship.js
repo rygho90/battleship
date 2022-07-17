@@ -14,15 +14,19 @@ const ship = (name) => {
     const location = []
 
 
-    const hit = (coordinate) => {
-        if (coordinateArr.includes(coordinate)) beenHit.push(coordinate)
+    const checkHit = (coordinate) => {
+        if (location.includes(coordinate)) {
+            console.log(`Hit recorded at ${coordinate}`)
+            console.log(`${name} sunk status: ${isSunk()}`)
+            beenHit.push(coordinate)
+        }
     }
 
     const isSunk = () => {
         return (beenHit.length === shipLength) ? true : false
     }
 
-    return {name, placed, shipLength, selected, beenHit, location, hit, isSunk}
+    return {name, placed, shipLength, selected, beenHit, location, checkHit, isSunk}
 }
 
 export default ship

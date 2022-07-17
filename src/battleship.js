@@ -26,15 +26,16 @@ const displayController = (() => {
 
     const renderGameBoard = (board, squares) => {
         board.filledCoords.forEach(coord => {
-            console.log(coord)
             squares[coord].style.backgroundColor = 'black'
             squares[coord].style.borderColor = 'white'
         })
         board.missedAttacks.forEach(coord => {
             squares[coord].style.backgroundColor = 'blue'
+            squares[coord].style.borderColor = 'black'
         })
         board.hitAttacks.forEach(coord => {
             squares[coord].style.backgroundColor = 'red'
+            squares[coord].style.borderColor = 'black'
         })
     }
 
@@ -90,14 +91,25 @@ const gameController = (() => {
     }
 
     const humanRound = () => {
+
         const hoverEffect = (e) => {
             computerSquares.forEach(square => square.classList.remove('hovering'))
             e.target.classList.add('hovering')
         }
 
         const shoot = (e) => {
-            computerBoard.receiveAttack(parseInt(e.target.dataset.num))
-            displayController.renderGameBoard(computerBoard, computerSquares)
+            const coord = parseInt(e.target.dataset.num)
+
+            if (!computerBoard.missedAttacks.includes(coord) && 
+            !computerBoard.hitAttacks.includes(coord)) {
+                computerBoard.receiveAttack(parseInt(coord))
+                computer.shipList.forEach(ship => {
+                    ship.checkHit(parseInt(coord))
+                })
+                displayController.renderGameBoard(computerBoard, computerSquares)
+                displayController.updateShipBoxes(computer)
+            }
+            
         }
 
         computerSquares.forEach(square => {
