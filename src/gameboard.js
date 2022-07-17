@@ -55,8 +55,10 @@ const gameboard = () => {
 
     const receiveAttack = (coordinate) => {
         if (filledCoords.includes(coordinate)) {
+            console.log("Received attack. It's a hit!")
             hitAttacks.push(coordinate)
         } else {
+            console.log("Received attack. It's a miss!")
             missedAttacks.push(coordinate)
         }
         

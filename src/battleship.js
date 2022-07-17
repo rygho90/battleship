@@ -30,6 +30,12 @@ const displayController = (() => {
             squares[coord].style.backgroundColor = 'black'
             squares[coord].style.borderColor = 'white'
         })
+        board.missedAttacks.forEach(coord => {
+            squares[coord].style.backgroundColor = 'blue'
+        })
+        board.hitAttacks.forEach(coord => {
+            squares[coord].style.backgroundColor = 'red'
+        })
     }
 
     const updateShipBoxes = (player) => {
@@ -62,13 +68,12 @@ const displayController = (() => {
 })();
 
 const gameController = (() => {
+    const computerBoard = gameboard()
+    const humanBoard = gameboard()
+    const computer = player(computerBoard, 'computer')
+    const human = player(humanBoard, 'human')
 
     const initializeGame = () => {
-        const computerBoard = gameboard()
-        const humanBoard = gameboard()
-        const computer = player(computerBoard, 'computer')
-        const human = player(humanBoard, 'human')
-
         computer.populateShips()
         human.populateShips()
 
@@ -84,14 +89,36 @@ const gameController = (() => {
         displayController.updateShipBoxes(human)
     }
 
+    const humanRound = () => {
+        const hoverEffect = (e) => {
+            computerSquares.forEach(square => square.classList.remove('hovering'))
+            e.target.classList.add('hovering')
+        }
+
+        const shoot = (e) => {
+            computerBoard.receiveAttack(parseInt(e.target.dataset.num))
+            displayController.renderGameBoard(computerBoard, computerSquares)
+        }
+
+        computerSquares.forEach(square => {
+            square.addEventListener('mouseover', hoverEffect)
+        })
+
+        computerSquares.forEach(square => {
+            square.addEventListener('click', shoot)
+        })
+    }
+
     return {
-        initializeGame
+        initializeGame,
+        humanRound
     }
 })();
 
 function handleStart() {
     displayController.hideElement(startBtn)
     gameController.initializeGame()
+    gameController.humanRound()
 }
 
 displayController.createBoard(computerGrid, computerSquares)
