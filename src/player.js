@@ -1,15 +1,15 @@
 import gameboard from './gameboard'
 import ship from './ship'
 
-const player = (board) => {
+const player = (board, type) => {
     const shipList = [];
 
     const populateShips = () => {
-        const destroyer = ship(2)
-        const submarine = ship(3)
-        const cruiser = ship(3)
-        const battleship = ship(4)
-        const carrier = ship(5)
+        const destroyer = ship('destroyer')
+        const submarine = ship('submarine')
+        const cruiser = ship('cruiser')
+        const battleship = ship('battleship')
+        const carrier = ship('carrier')
 
         shipList.push(destroyer)
         shipList.push(submarine)
@@ -35,13 +35,12 @@ const player = (board) => {
                     if (ship.placed) placedNum++
                 }
             })
-            console.log(`${placedNum} ships have been placed`)
         }
-
     }
 
     return {
         board,
+        type,
         shipList,
         populateShips,
         randomPlacement,
