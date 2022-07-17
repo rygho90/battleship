@@ -1,7 +1,7 @@
-const ship = (coordinateArr) => {
-    const shipLength = coordinateArr.length
+const ship = (shipLength) => {
+    const placed = false
     const beenHit = []
-    const shipLocation = coordinateArr
+    const location = []
 
     const hit = (coordinate) => {
         if (coordinateArr.includes(coordinate)) beenHit.push(coordinate)
@@ -11,7 +11,7 @@ const ship = (coordinateArr) => {
         return (beenHit.length === shipLength) ? true : false
     }
 
-    return {shipLength, beenHit, shipLocation, hit, isSunk}
+    return {placed, shipLength, beenHit, location, hit, isSunk}
 }
 
 export default ship
