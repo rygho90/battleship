@@ -3,12 +3,12 @@ import gameboard from './gameboard'
 import player from './player'
 import './styles.css'
 
-// Grid stuff
 const startBtn = document.querySelector('[data-start-btn]')
+const restartBtn = document.querySelector('[data-restart-btn]')
 const computerGrid = document.querySelector('[data-computer-grid]')
 const humanGrid = document.querySelector('[data-human-grid]')
-const computerSquares = [];
-const humanSquares = []
+let computerSquares = []
+let humanSquares = []
 
 const displayController = (() => {
     const createBoard = (grid, squares) => {
@@ -70,13 +70,22 @@ const displayController = (() => {
             }
         })
     }
+
+    const showEndGameBox = (outcome) => {
+        const endGameBox = document.querySelector('[data-end-game]')
+        const endGameText = document.querySelector('[data-end-text]')
+        
+        endGameBox.classList.remove("hide")
+        endGameText.textContent = `You ${outcome}!`
+    }
    
     return {
         createBoard,
         hideElement,
         renderHumanBoard,
         renderComputerBoard,
-        updateShipBoxes
+        updateShipBoxes,
+        showEndGameBox
     }
 })();
 
@@ -96,7 +105,7 @@ const gameController = (() => {
         human.randomPlacement(humanBoard)
         //human.logShipList()
 
-        displayController.renderComputerBoard(computerBoard, computerSquares)
+        displayController.renderHumanBoard(computerBoard, computerSquares)
         displayController.updateShipBoxes(computer)
         displayController.renderHumanBoard(humanBoard, humanSquares)
         displayController.updateShipBoxes(human)
@@ -104,10 +113,15 @@ const gameController = (() => {
 
     const checkForWinner = () => {
         let computerSunk = 0;
+        let humanSunk = 0;
         computer.shipList.forEach(ship => {
             if (ship.isSunk()) computerSunk++
         })
-        if (computerSunk === 5) console.log('You win!')
+        if (computerSunk === 5) displayController.showEndGameBox('won')
+        human.shipList.forEach(ship => {
+            if (ship.isSunk()) humanSunk++
+        })
+        if (humanSunk === 5) displayController.showEndGameBox('lost')
     }
 
     const humanRound = () => {
@@ -189,6 +203,8 @@ function handleStart() {
     gameController.humanRound()
 }
 
+
 displayController.createBoard(computerGrid, computerSquares)
 displayController.createBoard(humanGrid, humanSquares)
 startBtn.addEventListener('click', handleStart)
+// restartBtn.addEventListener('click', handleStart)
