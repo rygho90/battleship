@@ -16,8 +16,6 @@ const ship = (name) => {
 
     const checkHit = (coordinate) => {
         if (location.includes(coordinate)) {
-            console.log(`Hit recorded at ${coordinate}`)
-            console.log(`${name} sunk status: ${isSunk()}`)
             beenHit.push(coordinate)
         }
     }

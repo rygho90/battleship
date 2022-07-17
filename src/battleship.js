@@ -90,6 +90,14 @@ const gameController = (() => {
         displayController.updateShipBoxes(human)
     }
 
+    const checkForWinner = () => {
+        let computerSunk = 0;
+        computer.shipList.forEach(ship => {
+            if (ship.isSunk()) computerSunk++
+        })
+        if (computerSunk === 5) console.log('You win!')
+    }
+
     const humanRound = () => {
 
         const hoverEffect = (e) => {
@@ -108,6 +116,15 @@ const gameController = (() => {
                 })
                 displayController.renderGameBoard(computerBoard, computerSquares)
                 displayController.updateShipBoxes(computer)
+                checkForWinner()
+                computerSquares.forEach(square => {
+                    square.removeEventListener('mouseover', hoverEffect)
+                })
+        
+                computerSquares.forEach(square => {
+                    square.removeEventListener('click', shoot)
+                })
+                setTimeout(computerRound, 500)
             }
             
         }
@@ -119,11 +136,38 @@ const gameController = (() => {
         computerSquares.forEach(square => {
             square.addEventListener('click', shoot)
         })
+
+    }
+
+    const computerRound = () => {
+        let shotFired = false;
+
+        const shoot = () => {
+            const coord = Math.floor(Math.random() * (99 - 0) + 0)
+
+            if (!humanBoard.missedAttacks.includes(coord) && 
+            !humanBoard.hitAttacks.includes(coord)) {
+                humanBoard.receiveAttack(parseInt(coord))
+                human.shipList.forEach(ship => {
+                    ship.checkHit(parseInt(coord))
+                })
+                displayController.renderGameBoard(humanBoard, humanSquares)
+                displayController.updateShipBoxes(human)
+                checkForWinner()
+                shotFired = true;
+                humanRound()
+            }
+        }
+
+        while(!shotFired) {
+            shoot()
+        }
     }
 
     return {
         initializeGame,
-        humanRound
+        humanRound,
+        computerRound
     }
 })();
 
