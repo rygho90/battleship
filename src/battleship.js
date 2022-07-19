@@ -100,7 +100,7 @@ const gameController = (() => {
 
         computer.randomPlacement(computerBoard)
         
-        //human.randomPlacement(humanBoard)
+
 
         displayController.renderComputerBoard(computerBoard, computerSquares)
         displayController.updateShipBoxes(computer)
@@ -124,7 +124,7 @@ const gameController = (() => {
     }
 
     const placementRound = () => {
-        console.log(human.shipList)
+    
         let placedNum = 0
         let selectedShip = 0
         let direction = 1
